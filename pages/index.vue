@@ -1,0 +1,130 @@
+<script setup lang="ts">
+import { convertCurrency } from "~/helpers/convertCurrency";
+import { useKanbanQuery } from "~/helpers/kanban/useKanbanQuery";
+import type { ICard, IColumn } from "~/types/kanban.types";
+import dayjs from "dayjs";
+import { useMutation } from "@tanstack/vue-query";
+import type { EnumStatus } from "~/types/deals.types";
+import { DB } from "~/lib/appwrite";
+import { COLLECTION_DEALS, DB_ID } from "~/app.constants";
+import { generateColumnStyle } from "~/helpers/kanban/generate-gradient";
+import { useDealSlideStore } from "~/store/deal-slide.store";
+
+useHead({
+  title: "Home | CRM System",
+});
+
+const slideDealStore = useDealSlideStore();
+
+const dragCard = ref<ICard | null>(null);
+const sourceColumn = ref<IColumn | null>(null);
+
+const isDragLoading = ref(false);
+
+const { data, isLoading, refetch } = useKanbanQuery();
+
+type TypeMutationVariables = {
+  docId: string;
+  status?: EnumStatus;
+};
+
+const { mutate } = useMutation({
+  mutationKey: ["move-card"],
+  mutationFn: async ({ docId, status }: TypeMutationVariables) => {
+    isDragLoading.value = true;
+    await DB.updateDocument(DB_ID, COLLECTION_DEALS, docId, {
+      status,
+    });
+  },
+  onSuccess: async () => {
+    await refetch();
+    isDragLoading.value = false;
+  },
+});
+
+function handleDragStart(card: ICard, column: IColumn) {
+  dragCard.value = card;
+  sourceColumn.value = column;
+}
+
+function handleDragOver(event: DragEvent) {
+  event.preventDefault();
+}
+
+async function handleDrop(targetColumn: IColumn) {
+  if (dragCard.value && sourceColumn.value) {
+    if (sourceColumn.value.id === targetColumn.id) return;
+    mutate({ docId: dragCard.value.id, status: targetColumn.id });
+  }
+}
+</script>
+
+<template>
+  <div class="p-10">
+    <div
+      v-if="isDragLoading"
+      class="fixed top-0 left-0 right-0 bottom-0 min-h-full z-50 flex items-center justify-center bg-slate-900 bg-opacity-80"
+    >
+      <Icon name="tabler:loader" class="spin" size="45" />
+    </div>
+    <page-title label="CRM System"/>
+    <div v-if="isLoading">Loading...</div>
+    <div v-else>
+      <div class="grid grid-cols-5 gap-10">
+        <div
+          v-for="(column, index) in data"
+          :key="column.id"
+          @dragover="handleDragOver"
+          @drop="() => handleDrop(column)"
+          class="min-h-screen"
+        >
+          <div
+            class="rounded bg-slate-700 py-1 px-5 mb-2 text-center"
+            :style="generateColumnStyle(index, data?.length)"
+          >
+            {{ column.name }}
+          </div>
+          <div>
+            <KanbanCreateDeal :refetch="refetch" :status="column.id" />
+            <UiCard
+              v-for="card in column.items"
+              :key="card.id"
+              class="mb-3"
+              draggable="true"
+              @dragstart="() => handleDragStart(card, column)"
+            >
+              <UiCardHeader role="button" @click="slideDealStore.set(card)">
+                <UiCardTitle>
+                  {{ card.name }}
+                </UiCardTitle>
+                <UiCardDescription>{{
+                  convertCurrency(card.price)
+                }}</UiCardDescription>
+              </UiCardHeader>
+              <UiCardContent> {{ card.companyName }} </UiCardContent>
+              <UiCardFooter>
+                {{ dayjs(card.$createdAt).format("DD MMMM YYYY") }}
+              </UiCardFooter>
+            </UiCard>
+          </div>
+        </div>
+      </div>
+      <KanbanSlideover />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.spin {
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>
