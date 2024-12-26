@@ -37,11 +37,10 @@ const { data, isLoading } = useQuery({
         <UiTableRow v-for="customer in customers" :key="customer.$id">
           <UiTableCell>
             <NuxtLink :href="`/customers/edit/${customer.$id}`">
-              <NuxtImg
+              <img
                 :src="customer.avatar_url"
                 :alt="customer.name"
-                width="50"
-                height="50"
+                :style="{width: '50px', height: '50px'}"
                 class="rounded-full"
               />
             </NuxtLink>
