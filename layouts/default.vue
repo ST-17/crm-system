@@ -6,8 +6,10 @@ const authStore = useAuthStore();
 
 const router = useRouter();
 
+const isSidebarOpen = computed(() => authStore.isAuth)
+
 onMounted(async () => {
-  if (authStore.isAuth) return;
+  if (isSidebarOpen.value) return;
 
   loadingStore.set(true);
   try {
@@ -27,8 +29,8 @@ onMounted(async () => {
 
 <template>
   <LayoutLoader v-if="loadingStore.isLoading" />
-  <section v-else :class="{ grid: authStore.isAuth }" style="min-height: 100vh">
-    <LayoutSidebar v-if="authStore.isAuth" />
+  <section v-else :class="{ grid: isSidebarOpen }" style="min-height: 100vh">
+    <LayoutSidebar v-if="isSidebarOpen" />
     <div>
       <slot />
     </div>

@@ -10,6 +10,10 @@ interface InputFileEvent extends Event {
   target: HTMLInputElement;
 }
 
+definePageMeta({
+  middleware: 'auth'
+})
+
 useHead({
   title: "Edit Customer | CRM System",
 });

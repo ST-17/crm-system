@@ -10,6 +10,10 @@ import { COLLECTION_DEALS, DB_ID } from "~/app.constants";
 import { generateColumnStyle } from "~/helpers/kanban/generate-gradient";
 import { useDealSlideStore } from "~/store/deal-slide.store";
 
+definePageMeta({
+  middleware: 'auth'
+})
+
 useHead({
   title: "Home | CRM System",
 });
