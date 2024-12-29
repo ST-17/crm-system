@@ -36,13 +36,13 @@ const { mutate, isPending } = useMutation({
     DB.createDocument(DB_ID, COLLECTION_DEALS, uuid(), data),
   onSuccess: async () => {
     await props.refetch();
-    isFormOpen.value = false
+    isFormOpen.value = false;
     handleReset();
   },
 });
 
 const onSubmit = handleSubmit((values) => {
-  mutate({...values, price: +values.price});
+  mutate({ ...values, price: +values.price });
 });
 
 const isFormOpen = ref(false);
@@ -70,34 +70,36 @@ const isFormOpen = ref(false);
       </button>
     </div>
     <form v-if="isFormOpen" @submit="onSubmit" class="form">
-      <UiInput
-        placeholder="Наименование"
-        v-model="name"
-        v-bind="nameAttrs"
-        type="text"
-        class="input"
-      />
-      <UiInput
-        placeholder="Сумма"
-        v-model="price"
-        v-bind="priceAttrs"
-        type="text"
-        class="input"
-      />
-      <UiInput
-        placeholder="Email"
-        v-model="customerEmail"
-        v-bind="customerEmailAttrs"
-        type="text"
-        class="input"
-      />
-      <UiInput
-        placeholder="Компания"
-        v-model="customerName"
-        v-bind="customerNameAttrs"
-        type="text"
-        class="input"
-      />
+      <div class="flex flex-col gap-2 mb-2">
+        <UiInput
+          placeholder="Наименование"
+          v-model="name"
+          v-bind="nameAttrs"
+          type="text"
+          class="input"
+        />
+        <UiInput
+          placeholder="Сумма"
+          v-model="price"
+          v-bind="priceAttrs"
+          type="text"
+          class="input"
+        />
+        <UiInput
+          placeholder="Email"
+          v-model="customerEmail"
+          v-bind="customerEmailAttrs"
+          type="text"
+          class="input"
+        />
+        <UiInput
+          placeholder="Компания"
+          v-model="customerName"
+          v-bind="customerNameAttrs"
+          type="text"
+          class="input"
+        />
+      </div>
 
       <button class="btn" :disabled="isPending">
         {{ isPending ? "Загрузка..." : "Добавить" }}

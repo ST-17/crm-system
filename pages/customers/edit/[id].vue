@@ -11,8 +11,8 @@ interface InputFileEvent extends Event {
 }
 
 definePageMeta({
-  middleware: 'auth'
-})
+  middleware: "auth",
+});
 
 useHead({
   title: "Edit Customer | CRM System",
@@ -82,28 +82,30 @@ onUnmounted(() => {
     <div v-else>
       <page-title :label="(data as unknown as ICustomerFormState)?.name" />
       <form @submit="onSubmit" class="form">
-        <UiInput
-          placeholder="Name"
-          v-model="name"
-          v-bind="nameAttrs"
-          type="text"
-          class="input"
-        />
+        <div class="flex flex-col gap-3">
+          <UiInput
+            placeholder="Name"
+            v-model="name"
+            v-bind="nameAttrs"
+            type="text"
+            class="input"
+          />
 
-        <UiInput
-          placeholder="Email"
-          v-model="email"
-          v-bind="emailAttrs"
-          type="text"
-          class="input"
-        />
-        <UiInput
-          placeholder="From?"
-          v-model="fromSource"
-          v-bind="fromSourceAttrs"
-          type="text"
-          class="input"
-        />
+          <UiInput
+            placeholder="Email"
+            v-model="email"
+            v-bind="emailAttrs"
+            type="text"
+            class="input"
+          />
+          <UiInput
+            placeholder="From?"
+            v-model="fromSource"
+            v-bind="fromSourceAttrs"
+            type="text"
+            class="input"
+          />
+        </div>
 
         <img
           v-if="values.avatar_url || isUploadImagePending"
