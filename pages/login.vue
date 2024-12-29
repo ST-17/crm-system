@@ -52,6 +52,7 @@ const parseError = (error: any): Partial<typeof INITIAL_ERRORS> => {
 };
 
 const login = async () => {
+  errorText.value = "";
   errors.value = validateFields({
     email: email.value,
     password: password.value,
@@ -86,6 +87,7 @@ const login = async () => {
 };
 
 const register = async () => {
+  errorText.value = "";
   errors.value = validateFields({
     email: email.value,
     password: password.value,
