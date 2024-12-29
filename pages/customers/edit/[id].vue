@@ -127,7 +127,7 @@ onUnmounted(() => {
         </div>
 
         <UiButton :disabled="isPending" variant="secondary" class="mt-3">
-          {{ isPending ? "Загрузка..." : "Сохранить" }}
+          {{ isPending ? "Saving..." : "Save" }}
         </UiButton>
       </form>
     </div>

@@ -72,14 +72,14 @@ const isFormOpen = ref(false);
     <form v-if="isFormOpen" @submit="onSubmit" class="form">
       <div class="flex flex-col gap-2 mb-2">
         <UiInput
-          placeholder="Наименование"
+          placeholder="Name"
           v-model="name"
           v-bind="nameAttrs"
           type="text"
           class="input"
         />
         <UiInput
-          placeholder="Сумма"
+          placeholder="Price"
           v-model="price"
           v-bind="priceAttrs"
           type="text"
@@ -93,7 +93,7 @@ const isFormOpen = ref(false);
           class="input"
         />
         <UiInput
-          placeholder="Компания"
+          placeholder="Company"
           v-model="customerName"
           v-bind="customerNameAttrs"
           type="text"
@@ -102,7 +102,7 @@ const isFormOpen = ref(false);
       </div>
 
       <button class="btn" :disabled="isPending">
-        {{ isPending ? "Загрузка..." : "Добавить" }}
+        {{ isPending ? "Adding..." : "Add" }}
       </button>
     </form>
   </div>
