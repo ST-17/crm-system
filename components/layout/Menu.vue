@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { MENU_DATA } from "./menu/menu.data";
 
-const activeMenuClasses = "hover:bg-gray-700 hover:shadow";
-const disableMenuClasses = "text-gray-600";
+const activeMenuClasses = "dark:hover:bg-gray-700 hover:bg-gray-400 hover:shadow";
+const disableMenuClasses = "dark:text-gray-600 text-gray-400";
 </script>
 
 <template>

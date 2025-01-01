@@ -114,7 +114,7 @@ const isFormOpen = ref(false);
 }
 
 .btn {
-  @apply text-xs border py-1 px-2 rounded border-[#161c26] hover:border-[#482c65] transition-colors text-[#aebed5] hover:text-white;
+  @apply text-xs border py-1 px-2 rounded hover:border-[#482c65] transition-colors text-[#aebed5] dark:hover:text-white hover:text-[#161c26];
 }
 
 .form {

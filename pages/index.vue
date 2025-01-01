@@ -67,7 +67,7 @@ async function handleDrop(targetColumn: IColumn) {
   <div class="p-10">
     <div
       v-if="isDragLoading"
-      class="fixed top-0 left-0 right-0 bottom-0 min-h-full z-50 flex items-center justify-center bg-slate-900 bg-opacity-80"
+      class="fixed top-0 left-0 right-0 bottom-0 min-h-full z-50 flex items-center justify-center dark:bg-slate-900 bg-slate-300 dark:bg-opacity-80 bg-opacity-80"
     >
       <Icon name="tabler:loader" class="spin" size="45" />
     </div>
